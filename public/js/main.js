@@ -1,17 +1,17 @@
-window.addEventListener('load', () =>{
+window.addEventListener('load', () => {
     let form = document.querySelector('#task_form')
     let input = document.querySelector('#add_task_input')
     let elementList = document.querySelector('#tasks')
 
-    form.addEventListener('submit', (e) =>{
+    form.addEventListener('submit', (e) => {
         e.preventDefault()
         let task = input.value
 
-        if(!task){
+        if (!task) {
             alert("Dites nous d'abord qu'elle est votre tâche")
             return
         }
-        
+
         let elementTask = document.createElement('div')
         elementTask.classList.add('task_bullet')
 
@@ -35,12 +35,12 @@ window.addEventListener('load', () =>{
         elementEdit.classList.add('edit')
         elementEdit.innerHTML = 'Modifier'
 
-        let elementDelete = document.createElement('button')
-        elementDelete.classList.add('delete')
-        elementDelete.innerHTML = 'Supprimer'
-        
+        let elementDone = document.createElement('button')
+        elementDone.classList.add('delete')
+        elementDone.innerHTML = 'Finir'
+
         elementAction.appendChild(elementEdit)
-        elementAction.appendChild(elementDelete)
+        elementAction.appendChild(elementDone)
 
         elementTask.appendChild(elementAction)
 
@@ -48,8 +48,8 @@ window.addEventListener('load', () =>{
 
         input.value = ""
 
-        elementEdit.addEventListener('click', () =>{
-            if(elementEdit.innerText.toLowerCase() == 'modifier'){
+        elementEdit.addEventListener('click', () => {
+            if (elementEdit.innerText.toLowerCase() == 'modifier') {
                 elementInput.removeAttribute('readonly')
                 elementInput.focus
                 elementEdit.innerText = 'Valider'
@@ -59,17 +59,45 @@ window.addEventListener('load', () =>{
             }
         })
 
-        elementDelete.addEventListener('click', () =>{
+        elementDone.addEventListener('click', () => {
             elementList.removeChild(elementTask)
+            let currentTask = document.querySelector('.task_bullet')
+            let elementDoneList = document.querySelector('#tasks_done')
+            let taskDone = currentTask //.value
+
+            let elementTaskDone = document.createElement('div')
+            elementTaskDone.classList.add('task_bullet')
+
+            let elementContentDone = document.createElement('div')
+            elementContentDone.classList.add('content')
+
+            elementTaskDone.appendChild(elementContentDone)
+
+            let elementInputDone = document.createElement('input')
+            elementInputDone.classList.add('text')
+            elementInputDone.type = 'text'
+            elementInputDone.value = taskDone
+
+            elementContentDone.appendChild(elementInputDone)
+
+            let elementActionDone = document.createElement('div')
+            elementActionDone.classList.add('actions')
+
+            let elementDelete = document.createElement('button')
+            elementDelete.classList.add('delete')
+            elementDelete.innerHTML = 'Supprimer'
+
+            elementActionDone.appendChild(elementDelete)
+
+            elementTaskDone.appendChild(elementActionDone)
+
+            elementDoneList.appendChild(elementTaskDone)
+
+            currentTask.value = ""
+
+            elementDelete.addEventListener('click', () => {
+                elementDoneList.removeChild(elementTaskDone)
+            })
         })
     })
 })
-
-// function storage (){
-//     window.localStorage.elementList = elementList.innerHTML
-// }
-// function getValue(){
-//     let contentStorage = window.localStorage.elementList
-//     elementList.innerHTML = contentStorage
-// }
-// getValue()
